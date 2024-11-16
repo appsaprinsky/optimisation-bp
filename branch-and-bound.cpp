@@ -2,7 +2,7 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-
+#include <fstream>
 using namespace std;
 
 struct Item {
@@ -80,8 +80,30 @@ int knapsack(int W, vector<Item>& items) {
 }
 
 int main() {
-    int W = 50; 
-    vector<Item> items = {{10, 60}, {20, 100}, {30, 120}}; 
+    vector<Item> items;
+
+    ifstream file("input_data.txt");
+    if (file.is_open()) {
+        int weight, value;
+        while (file >> weight >> value) {
+            items.push_back({weight, value});
+        }
+        file.close();
+    } else {
+        cerr << "Unable to open file " << endl;
+    }
+
+    int W;
+    ifstream file1("input_max_cap.txt");
+    if (file1.is_open()) {
+        file1 >> W;
+        file1.close();
+    } else {
+        cerr << "Unable to open file " << endl;
+    }
+
+    // int W = 50; 
+    // vector<Item> items = {{10, 60}, {20, 100}, {30, 120}}; 
     cout << "Maximum profit is " << knapsack(W, items) << endl;
     return 0;
 }
